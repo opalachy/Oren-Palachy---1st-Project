@@ -1,0 +1,88 @@
+body{
+    text-align: center;
+    background-color: rgb(9, 240, 248);
+}
+
+.box{
+    margin: 0 auto;
+    background-color: rgba(192, 245, 17, 0.383);
+    width: 400px;
+    border-radius: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+span{
+font-weight: bold;
+}
+
+.newGame{
+    border-radius: 10%;
+    font-weight: bold;
+    color: red;
+    background-color: chartreuse;
+}
+
+button{
+    background-color: black;
+    color: white;
+    text-shadow: transparent;
+}
+
+.board{
+    margin: 0 auto;
+    background-color: cornsilk;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    table-layout: fixed;
+    width: 20px;
+    height: 20px; 
+}
+
+td
+{
+    border: 1px solid green;
+    overflow: hidden;
+     width: 20px;
+    height: 20px; 
+}
+
+.boxIn{
+    height: 150px;
+}
+
+boxInIn{
+    height: 1000px;
+}
+
+.console1{
+    background-color:purple;
+    height: 70px;
+    width: 286px;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding-top:1px;
+    padding-bottom:10px;
+}
+
+.console2{
+    background-color:rgb(153, 145, 153);
+    margin: 15px;
+    height: 45px;
+    float: left;
+    width: 115px;
+    padding-top: 15px;
+}
+
+.console3{
+    background-color:rgb(153, 145, 153);
+    margin: 15px;
+    height: 45px;
+    float: right;
+    width: 115px;
+    padding-bottom: 15px;
+}
+
+.setZero{
+    margin: 0 auto;
+}
