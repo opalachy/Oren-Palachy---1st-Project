@@ -6,12 +6,21 @@
     <link rel="stylesheet" href="css\style.css">
     <title>Mine Sweeper</title>
 </head>
-<body onload="init(16, 2)">
+<body onload="init(16)">
     <h1>Mine Sweeper - The Best Game in Town!!!</h1>
     <p>Start the game by clicking on a cell <br><span>Good luck</span></p>
     <div class="box">
-        <!-- <button class="newGame" onclick="newGame()">New Game</button> -->
-        <span class="newGame" onclick="newGame()" style='font-size:100px;'>&#128515;</span>
+        <span class="newGame" onclick="newGame()" style='font-size:20px;'>&#128515;</span>
+        <div class="hint">
+        <span class="hint1" onclick="giveMeHint1(this)">💡</span>
+        <span class="hint2" onclick="giveMeHint2(this)">💡</span>
+        <span class="hint3" onclick="giveMeHint3(this)">💡</span>
+        </div>
+        <div class="okToClick">
+        <span class="okTo" onclick="okTo(this)">🆗</span>
+        <span class="okTo" onclick="okTo(this)">🆗</span>
+        <span class="okTo" onclick="okTo(this)">🆗</span>
+        </div>
         <div class="boxIn">
             <div class="console1">
                 <p>Choose Your Level:</p>
@@ -21,7 +30,10 @@
             </div>
             <div class="boxInIn">
                 <div class="console2">
-                    <p class="setZero" id="demo"></p>
+                    <p class="setZero" id="demo1"></p>
+                </div>
+                <div class="console4">
+                    <p class="live">❤️ ❤️️ ❤️️️</p>
                 </div>
                 <div class="console3">
                     <p class="highestScore"></p>
@@ -30,24 +42,14 @@
         </div>
         
         <div class="table">
-            <table class="board">
+            <table class="board" id="demo">
                 
                 <tbody></tbody>
                 
             </table>
         </div>
     </div>
-    <!-- <span style='font-size:100px;'>&#128515;</span>
-    <span style='font-size:100px;'>&#128526;</span>
-    <span style='font-size:100px;'>&#129327;</span>
-    <span style='font-size:100px; color: blue;'>&#49;</span>
-    <span style='font-size:100px; color:green;'>&#50;</span>
-    <span style='font-size:100px;color: red;'>&#51;</span>
-    <span style='font-size:100px;color: lightcoral;'>&#52;</span>
-    <span style='font-size:100px;color: purple;'>&#53;</span>
-    <span style='font-size:100px;color: orange'>&#54;</span>
-    <span style='font-size:100px;color: pink;'>&#55;</span>
-    <span style='font-size:100px;color: black;'>&#56;</span> -->
+   
     <script src="js/main.js"></script>
 </body>
 </html>
