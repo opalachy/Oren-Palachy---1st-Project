@@ -11,7 +11,7 @@ var bombPos = [];
 var counter = 0;
 var gIsGameOn = false;
 var elapsT = 0;;
-var stopCount = 0;
+var numOfMarked = 0;
 var level = 16;
 var numOfBomb = 2;
 var flagVsBombLocation = 0;
@@ -24,9 +24,6 @@ var safeClick = 3;
 
 document.getElementById("16").checked = 'True';
 
-function newGame() {
-    init(level);
-}
 
 function setLevel1() {
     document.getElementById('16').checked = 'True';
@@ -64,6 +61,15 @@ function init(matSize) {
     var sto = document.querySelector('.setZero');
     sto.innerText = `Game Time: ${0}`;
     liveCount = 3;
+    safeClick = 3;
+    numOfMarked = 0
+    flagVsBombLocation = 0;
+    var elSpan = document.querySelector('.okTo1');
+    elSpan.style.display = 'block'
+    var elSpan = document.querySelector('span.okTo2');
+    elSpan.style.display = 'block'
+    var elSpan = document.querySelector('span.okTo3');
+    elSpan.style.display = 'block'
     var elPlive = document.querySelector('.live');
     elPlive.innerHTML = '❤️️ ❤️ ❤️';
     var elSpanImoj = document.querySelector('.newGame');
@@ -71,12 +77,15 @@ function init(matSize) {
     if (matSize === 16) numOfBomb = 2;
     if (matSize === 64) numOfBomb = 12;
     if (matSize === 144) numOfBomb = 30;
-
     gBoard = createBoard(matSize);
     renderBoard(gBoard);
+
+
 }
 
-
+function newGame() {
+    init(level);
+}
 function createBoard(size) {
     var sqrt = Math.sqrt(size);
     var board = [];
@@ -143,9 +152,11 @@ function revealsNegs(cellI, cellJ) {
         if (i < 0 || i >= gBoard.length) continue;
         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
             if (j < 0 || j >= gBoard.length) continue;
-            if (!(gBoard[i][j].isMine) && !(gBoard[i][j].isMarked)) {
+            if (!(gBoard[i][j].isMine) && !(gBoard[i][j].isMarked) && !(gBoard[i][j].isShown)) {
                 gBoard[i][j].isShown = true;
                 counter++;
+                numOfMarked++;
+                checkGameOver();
                 var highestScore = document.querySelector('.highestScore');
                 highestScore.innerText = `Highest Score: ${counter}`;
                 if (gBoard[i][j].minesAroundCount === 0) {
@@ -175,50 +186,33 @@ function rightClick(evevnt, i, j, elTd) {
     if (!(gBoard[i][j].isMarked) && !(gBoard[i][j].isShown) && evevnt.button === 2) {
         gBoard[i][j].isMarked = true;
         elTd.innerText = REDFLAG;
-        for (var idx = 0; idx < numOfBomb; idx++) {
+        flagVsBombLocation++;
+        for (var idx = 0; idx < bombPos.length - 1; idx++) {
             if ((bombPos[idx].posi === i) && (bombPos[idx].posj === j)) {
-                flagVsBombLocation++;
-                if (flagVsBombLocation === bombPos.length) {
-                    var elSpanImoj = document.querySelector('.newGame');
-                    elSpanImoj.innerHTML = `${'&#128526'}`
-                    stop();
-                }
+                checkGameOver();
             }
         }
     } else if (!(gBoard[i][j].isShown) && evevnt.button === 2) {
         gBoard[i][j].isMarked = false;
         elTd.innerText = ' ';
-        for (var idx = 0; idx < numOfBomb; idx++) {
-            if ((bombPos[idx].posi === i) && (bombPos[idx].posj === j)) {
-                flagVsBombLocation--;
-            }
-        }
+        flagVsBombLocation--;
     }
 }
-function renderCell(i, j, value) {
-    var elTd = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
-    elTd.innerText = value;
-    elTd.style.backgroundColor = `#faf6`
+
+function checkGameOver() {
+    if (flagVsBombLocation === numOfBomb && numOfBomb + numOfMarked === level) {
+        var elSpanImoj = document.querySelector('.newGame');
+        elSpanImoj.innerHTML = `${'&#128526'}`
+        stop();
+    }
 }
 
-// function giveMeHint1(elSpan) {
-//     elSpan.style.backgroundColor = '#f0e68c'
-//     while (!(isHint1)) {
-//         isHint1 = !(isHint1);
-//         var res = cellClicked(isHint1);
-//         isHint1 = res;
-//     }
-//     elSpan.style.display = 'none'
-// }
 
-// function giveMeHint2(elSpan) {
-//     isHint2 = !(isHint2);
-
-// }
-// function giveMeHint3(elSpan) {
-//     isHint3 = !(isHint3);
-
-// }
+function renderCell(i, j, value) {
+    var elTd = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
+    elTd.innerHTML = value;
+    elTd.style.backgroundColor = `#faf6`
+}
 
 function getRandomNums() {
     var nums = { num1: 0, num2: 0 };
@@ -237,7 +231,6 @@ function okTo(elSpan) {
     var check = false;
     while (!(check) && safeClick >= 1) {
         var nums = getRandomNums();
-        console.log(nums)
         if (!(gBoard[nums.num1][nums.num2].isMine) && !(gBoard[nums.num1][nums.num2].isShown)) {
             check = true;
         }
@@ -246,9 +239,8 @@ function okTo(elSpan) {
     setTimeout(recover, 3000);
     function recover() {
         var buff;
-        for (var i = 0; i < res.length - 1; i++) {
+        for (var i = 0; i < res.length; i++) {
             buff = res[i];
-            console.log(buff)
             gBoard[buff.posi][buff.posj].isShown = false;
             renderCellRecovery(buff.posi, buff.posj, ' ');
         }
@@ -268,10 +260,9 @@ function revealForMoment(cellI, cellJ) {
                 if (gBoard[i][j].minesAroundCount === 0) {
                     renderCell(i, j, ' ');
                     okToReveal.push({ posi: i, posj: j });
-                    console.log(okToReveal)
                 }
                 else {
-                    renderCell(i, j, gBoard[i][j].minesAroundCount);;
+                    renderCell(i, j, gBoard[i][j].minesAroundCount);
                     okToReveal.push({ posi: i, posj: j });
                 }
             }
@@ -279,9 +270,6 @@ function revealForMoment(cellI, cellJ) {
     }
     return okToReveal;
 }
-
-
-
 
 function renderCellRecovery(i, j, value) {
     var elTd = document.querySelector(`[data-i="${i}"][data-j="${j}"]`)
@@ -293,16 +281,17 @@ function renderCellRecovery(i, j, value) {
 function cellClicked(elTd, cellI, cellJ) {
     if (counter === 0) {
         start();
-        // gIsGameOn = true;
+        gIsGameOn = true;
         randizeBomb(level, numOfBomb);
         setMinesNegsCount(gBoard);
         if (gBoard[cellI][cellJ].minesAroundCount !== ' ') {
             renderCell(cellI, cellJ, gBoard[cellI][cellJ].minesAroundCount);
             counter++;
+            numOfMarked++;
         } else {
             revealsNegs(cellI, cellJ);
         }
-        // counter++;
+        counter++;
         var highestScore = document.querySelector('.highestScore');
         highestScore.innerText = `Highest Score: ${counter}`;
     } else if (!(gBoard[cellI][cellJ].isMine) && !(gBoard[cellI][cellJ].isMarked) && !(gBoard[cellI][cellJ].isShown)) {
@@ -311,6 +300,8 @@ function cellClicked(elTd, cellI, cellJ) {
         } else {
             gBoard[cellI][cellJ].isShown = true;
             renderCell(cellI, cellJ, gBoard[cellI][cellJ].minesAroundCount);
+            numOfMarked++;
+            checkGameOver();
             counter++;
             var highestScore = document.querySelector('.highestScore');
             highestScore.innerText = `Highest Score: ${counter}`;
@@ -356,6 +347,4 @@ var stop = function () {
     clearInterval(timerInterval);
     gIsGameOn = false;
     elapsT = 0;
-
-
 }

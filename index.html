@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css\style.css">
     <title>Mine Sweeper</title>
 </head>
+
 <body onload="init(16)">
     <h1>Mine Sweeper - The Best Game in Town!!!</h1>
     <p>Start the game by clicking on a cell <br><span>Good luck</span></p>
     <div class="box">
         <span class="newGame" onclick="newGame()" style='font-size:20px;'>&#128515;</span>
-        <div class="hint">
-        <span class="hint1" onclick="giveMeHint1(this)">💡</span>
-        <span class="hint2" onclick="giveMeHint2(this)">💡</span>
-        <span class="hint3" onclick="giveMeHint3(this)">💡</span>
-        </div>
-        <div class="okToClick">
-        <span class="okTo" onclick="okTo(this)">🆗</span>
-        <span class="okTo" onclick="okTo(this)">🆗</span>
-        <span class="okTo" onclick="okTo(this)">🆗</span>
-        </div>
+        <!-- <div>
+            <div class="hint"> -->
+        <p class="option">
+            <span class="hint1" onclick="giveMeHint1(this)">💡</span>
+            <span class="hint2" onclick="giveMeHint2(this)">💡</span>
+            <span class="hint3" onclick="giveMeHint3(this)">💡</span>
+            <!-- </div>
+            <div class="okToClick"> -->
+            <span class="okTo1" onclick="okTo(this)">🆗</span>
+            <span class="okTo2" onclick="okTo(this)">🆗</span>
+            <span class="okTo3" onclick="okTo(this)">🆗</span>
+            <!-- </div>
+        </div> -->
+        </p>
         <div class="boxIn">
             <div class="console1">
                 <p>Choose Your Level:</p>
@@ -40,16 +46,17 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="table">
             <table class="board" id="demo">
-                
+
                 <tbody></tbody>
-                
+
             </table>
         </div>
-    </div>
-   
-    <script src="js/main.js"></script>
+
+
+        <script src="js/main.js"></script>
 </body>
+
 </html>

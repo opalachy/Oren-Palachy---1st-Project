@@ -104,34 +104,43 @@ width: 120px;
 font-size: 8px;
 }
 
-.hint{
-    margin-left:380px;
-}
 .hint1{
     display: block;
     width: 20px;
+    display: inline-block;
 }
 .hint2{
     display: block;
     width: 20px;
+    display: inline-block;
 }
 .hint3{
     display: block;
     width: 20px;
+    display: inline-block;
 }
-.okToClick{
-    margin-right: 300px;;
-    margin-bottom: 50px;
-}
+
 .okTo1{
     display: block;
     width: 20px;
+    display: inline-block;
+    margin: 0 auto;
+
 }
 .okTo2{
     display: block;
     width: 20px;
+    display: inline-block;
+    margin: 0 auto;
 }
 .okTo3{
     display: block;
     width: 20px;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+p.option{
+    width: 800px;
+    height: 30px;
 }
